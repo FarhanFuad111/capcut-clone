@@ -1,0 +1,198 @@
+const mediaItems = [
+  { id: 1, name: 'Night Drive', duration: '00:18', color: 'linear-gradient(135deg, #5b7cff, #2a2d67)', label: 'clip' },
+  { id: 2, name: 'City Lights', duration: '00:14', color: 'linear-gradient(135deg, #ff7e5f, #ff3d81)', label: 'clip' },
+  { id: 3, name: 'Cosmos', duration: '00:22', color: 'linear-gradient(135deg, #6ee7b7, #3b82f6)', label: 'clip' },
+  { id: 4, name: 'B-roll', duration: '00:10', color: 'linear-gradient(135deg, #fbbf24, #f97316)', label: 'clip' },
+  { id: 5, name: 'Intro', duration: '00:08', color: 'linear-gradient(135deg, #a78bfa, #ec4899)', label: 'text' },
+  { id: 6, name: 'Sound FX', duration: '00:20', color: 'linear-gradient(135deg, #30cfd0, #330867)', label: 'audio' },
+];
+
+const timelineClips = [
+  { id: 1, track: 'video', name: 'Night Drive', start: 0, width: 26, color: 'linear-gradient(135deg, #7c3aed, #3b82f6)', accent: '#c4b5fd' },
+  { id: 2, track: 'video', name: 'City Lights', start: 27, width: 18, color: 'linear-gradient(135deg, #f97316, #ef4444)', accent: '#fdba74' },
+  { id: 3, track: 'video', name: 'Cosmos', start: 46, width: 29, color: 'linear-gradient(135deg, #10b981, #22c55e)', accent: '#a7f3d0' },
+  { id: 4, track: 'audio', name: 'Background mix', start: 0, width: 54, color: 'linear-gradient(135deg, #0f172a, #334155)', accent: '#93c5fd' },
+];
+
+const toolButtons = ['Cut', 'Trim', 'Text', 'Audio', 'Sticker', 'Filters', 'Transitions'];
+
+export default function App() {
+  return (
+    <div className="editor-shell">
+      <header className="topbar">
+        <div className="brand-wrap">
+          <div className="logo-mark">F</div>
+          <div>
+            <div className="brand-name">FrameFlow</div>
+            <div className="project-label">Summer Reel</div>
+          </div>
+        </div>
+
+        <nav className="top-actions">
+          {toolButtons.map((item) => (
+            <button key={item} className={item === 'Text' ? 'active' : ''}>{item}</button>
+          ))}
+        </nav>
+
+        <div className="top-utility">
+          <button className="ghost-btn">Export</button>
+          <button className="primary-btn">Share</button>
+        </div>
+      </header>
+
+      <div className="workspace">
+        <aside className="sidebar left-panel">
+          <div className="panel-header">
+            <span>Media</span>
+            <button>+</button>
+          </div>
+
+          <div className="library-filters">
+            <span className="filter active">All</span>
+            <span className="filter">Images</span>
+            <span className="filter">Videos</span>
+          </div>
+
+          <div className="media-list">
+            {mediaItems.map((item) => (
+              <div key={item.id} className="media-card">
+                <div className="thumb" style={{ background: item.color }}>
+                  <span className="media-badge">{item.label}</span>
+                </div>
+                <div className="media-meta">
+                  <strong>{item.name}</strong>
+                  <span>{item.duration}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </aside>
+
+        <main className="canvas-panel">
+          <div className="preview-header">
+            <div className="status-pill">
+              <span className="dot" />
+              Live Preview
+            </div>
+            <div className="time-indicator">00:36 / 01:12</div>
+          </div>
+
+          <div className="preview-stage">
+            <div className="stage-glow" />
+            <div className="play-ring">
+              <div className="triangle" />
+            </div>
+            <div className="video-overlay">
+              <span>Summer City</span>
+              <small>4K • 24fps</small>
+            </div>
+          </div>
+
+          <div className="transport-bar">
+            <button className="mini-btn">⌂</button>
+            <button className="mini-btn">◀</button>
+            <button className="play-btn">▶</button>
+            <button className="mini-btn">⏮</button>
+            <div className="transport-slider">
+              <span>00:18</span>
+              <div className="slider-track">
+                <div className="slider-progress" />
+              </div>
+              <span>01:12</span>
+            </div>
+          </div>
+        </main>
+
+        <aside className="sidebar right-panel">
+          <div className="panel-header">
+            <span>Inspector</span>
+            <button>⚙</button>
+          </div>
+
+          <div className="inspector-card">
+            <div className="setting-row">
+              <label>Brightness</label>
+              <span>82%</span>
+            </div>
+            <input type="range" defaultValue={82} />
+          </div>
+
+          <div className="inspector-card">
+            <div className="setting-row">
+              <label>Saturation</label>
+              <span>58%</span>
+            </div>
+            <input type="range" defaultValue={58} />
+          </div>
+
+          <div className="inspector-card">
+            <div className="setting-row">
+              <label>Contrast</label>
+              <span>76%</span>
+            </div>
+            <input type="range" defaultValue={76} />
+          </div>
+
+          <div className="quick-effects">
+            <span className="chip active">Cinematic</span>
+            <span className="chip">Warm</span>
+            <span className="chip">Neon</span>
+          </div>
+        </aside>
+      </div>
+
+      <footer className="timeline-panel">
+        <div className="timeline-header">
+          <div>
+            <strong>Timeline</strong>
+            <small>Sequence 01</small>
+          </div>
+          <div className="timeline-actions">
+            <button>Snap</button>
+            <button className="primary-btn small">Preview</button>
+          </div>
+        </div>
+
+        <div className="timeline-ruler">
+          {Array.from({ length: 12 }).map((_, index) => (
+            <span key={index}>{(index * 5).toString().padStart(2, '0')}s</span>
+          ))}
+        </div>
+
+        <div className="timeline-track video-track">
+          {timelineClips.filter((clip) => clip.track === 'video').map((clip) => (
+            <div
+              key={clip.id}
+              className="timeline-clip"
+              style={{
+                left: `${clip.start}%`,
+                width: `${clip.width}%`,
+                background: clip.color,
+                boxShadow: `inset 0 0 0 1px ${clip.accent}`
+              }}
+            >
+              <span>{clip.name}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="timeline-track audio-track">
+          {timelineClips.filter((clip) => clip.track === 'audio').map((clip) => (
+            <div
+              key={clip.id}
+              className="timeline-clip audio"
+              style={{
+                left: `${clip.start}%`,
+                width: `${clip.width}%`,
+                background: clip.color,
+                boxShadow: `inset 0 0 0 1px ${clip.accent}`
+              }}
+            >
+              <span>{clip.name}</span>
+            </div>
+          ))}
+        </div>
+      </footer>
+    </div>
+  );
+}
